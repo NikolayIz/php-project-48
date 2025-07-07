@@ -34,24 +34,26 @@ if ($args['--version']) {
 }
 
 if ($args["<firstFile>"]) {
-    if (!file_exists($args["<firstFile>"])) {
+    $pathToFirstFile = realpath($args["<firstFile>"]);
+    if ($pathToFirstFile === false) {
         echo "Файл {$args["<firstFile>"]} не найден\n";
         exit(1);
     }
-    $firstFile = file_get_contents($args["<firstFile>"]);
+    $firstFile = file_get_contents($pathToFirstFile);
     // $parsedFirstFile = parseFile($firstFile);
-    // print_r($parsedFirstFile);
+    // echo $parsedFirstFile;
     echo $firstFile;
 } 
 
 if ($args["<secondFile>"]) {
-    if (!file_exists($args["<secondFile>"])) {
+    $pathToSecondFile = realpath($args["<secondFile>"]);
+    if ($pathToSecondFile === false) {
         echo "Файл {$args["<secondFile>"]} не найден\n";
         exit(1);
     }
-    $secondFile = file_get_contents($args["<secondFile>"]);
+    $secondFile = file_get_contents($pathToSecondFile);
     // $parsedFirstFile = parseFile($firstFile);
-    // print_r($parsedFirstFile);
+    // echo $parsedFirstFile;
     echo $secondFile;
 } 
 

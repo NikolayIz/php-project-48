@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
-
+//ниже код для отключения предпреждения которое выкидывает библотека funct из-за какой-то несовместимости
+error_reporting(E_ALL & ~E_DEPRECATED);
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $doc = <<<DOC
@@ -31,3 +32,26 @@ if ($args['--version']) {
     echo "gendiff 0.1.0\n";
     exit(0);
 }
+
+if ($args["<firstFile>"]) {
+    if (!file_exists($args["<firstFile>"])) {
+        echo "Файл {$args["<firstFile>"]} не найден\n";
+        exit(1);
+    }
+    $firstFile = file_get_contents($args["<firstFile>"]);
+    // $parsedFirstFile = parseFile($firstFile);
+    // print_r($parsedFirstFile);
+    echo $firstFile;
+} 
+
+if ($args["<secondFile>"]) {
+    if (!file_exists($args["<secondFile>"])) {
+        echo "Файл {$args["<secondFile>"]} не найден\n";
+        exit(1);
+    }
+    $secondFile = file_get_contents($args["<secondFile>"]);
+    // $parsedFirstFile = parseFile($firstFile);
+    // print_r($parsedFirstFile);
+    echo $secondFile;
+} 
+

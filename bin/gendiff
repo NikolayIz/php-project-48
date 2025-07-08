@@ -4,7 +4,7 @@
 error_reporting(E_ALL & ~E_DEPRECATED);
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use function Hexlet\Code\Parser\parseFile;
+use function Hexlet\Code\Gendiff\genDiff;
 
 $doc = <<<DOC
 
@@ -36,26 +36,37 @@ if ($args['--version']) {
 }
 
 if ($args["<firstFile>"]) {
-    $pathToFirstFile = realpath($args["<firstFile>"]);
-    if ($pathToFirstFile === false) {
+    $pathToFile1 = realpath($args["<firstFile>"]);
+    if ($pathToFile1 === false) {
         echo "Файл {$args["<firstFile>"]} не найден\n";
         exit(1);
     }
-    $firstFile = file_get_contents($pathToFirstFile);
-    $parsedFirstFile = parseFile($firstFile);
-    print_r($parsedFirstFile);
-    // echo $firstFile;
-} 
-
+}
 if ($args["<secondFile>"]) {
-    $pathToSecondFile = realpath($args["<secondFile>"]);
-    if ($pathToSecondFile === false) {
+    $pathToFile2 = realpath($args["<secondFile>"]);
+    if ($pathToFile2 === false) {
         echo "Файл {$args["<secondFile>"]} не найден\n";
         exit(1);
     }
-    $secondFile = file_get_contents($pathToSecondFile);
-    $parsedSecondFile = parseFile($secondFile);
-    print_r($parsedSecondFile);
-    // echo $secondFile;
-} 
+}
+$diff = genDiff($pathToFile1, $pathToFile2);
+print_r($diff);
+
+//     $firstFile = file_get_contents($pathToFirstFile);
+//     $parsedFirstFile = parseFile($firstFile);
+//     print_r($parsedFirstFile);
+//     // echo $firstFile;
+
+
+// if ($args["<secondFile>"]) {
+//     $pathToSecondFile = realpath($args["<secondFile>"]);
+//     if ($pathToSecondFile === false) {
+//         echo "Файл {$args["<secondFile>"]} не найден\n";
+//         exit(1);
+//     }
+//     $secondFile = file_get_contents($pathToSecondFile);
+//     $parsedSecondFile = parseFile($secondFile);
+//     print_r($parsedSecondFile);
+//     // echo $secondFile;
+// } 
 

@@ -4,6 +4,8 @@
 error_reporting(E_ALL & ~E_DEPRECATED);
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use function Hexlet\Code\Parser\parseFile;
+
 $doc = <<<DOC
 
 Generate diff
@@ -40,9 +42,9 @@ if ($args["<firstFile>"]) {
         exit(1);
     }
     $firstFile = file_get_contents($pathToFirstFile);
-    // $parsedFirstFile = parseFile($firstFile);
-    // echo $parsedFirstFile;
-    echo $firstFile;
+    $parsedFirstFile = parseFile($firstFile);
+    print_r($parsedFirstFile);
+    // echo $firstFile;
 } 
 
 if ($args["<secondFile>"]) {
@@ -52,8 +54,8 @@ if ($args["<secondFile>"]) {
         exit(1);
     }
     $secondFile = file_get_contents($pathToSecondFile);
-    // $parsedFirstFile = parseFile($firstFile);
-    // echo $parsedFirstFile;
-    echo $secondFile;
+    $parsedSecondFile = parseFile($secondFile);
+    print_r($parsedSecondFile);
+    // echo $secondFile;
 } 
 

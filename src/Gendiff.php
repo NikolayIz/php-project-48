@@ -5,15 +5,66 @@ namespace Hexlet\Code\Gendiff;
 use function Hexlet\Code\Parser\parseFile;
 use function Funct\Collection\sortBy;
 
-function genDiff($pathToFile1, $pathToFile2): string
+function genDiff(string $pathToFile1, string $pathToFile2): string
 {
-    $dataFile1 = file_get_contents(realpath($pathToFile1));
-    $dataFile2 = file_get_contents(realpath($pathToFile2));
-    $decoded1 = get_object_vars(json_decode($dataFile1));
-    $decoded2 = get_object_vars(json_decode($dataFile2));
+    $dataFromFile1 = file_get_contents(realpath($pathToFile1));
+    $dataFromFile2 = file_get_contents(realpath($pathToFile2));
+    $decoded1 = parseFile($dataFromFile1);
+    $decoded2 = parseFile($dataFromFile2);
 
     $sortedDecoded1 = sortBy($decoded1, fn($value) => $value, 'ksort');
     $sortedDecoded2 = sortBy($decoded2, fn($value) => $value, 'ksort');
-    //отсортировал теперь надо сравнивать научиться пока хз как это делать предположительно используя мап редусе фильтр
-    return json_encode($sortedDecoded1);
+    $keys1 = array_keys($sortedDecoded1);
+    $keys2 = array_keys($sortedDecoded2);
+    $allKeys = array_merge($keys1, $keys2);
+    $allUniqKeys = array_unique($allKeys);
+    $sortedUniqKeys = sortBy($allUniqKeys, fn($value) => $value, 'asort');
+    // sort($allUniqKeys); мутирующая функция
+
+    $result = array_reduce(
+        $sortedUniqKeys,
+        function ($carry, $key) use ($sortedDecoded1, $sortedDecoded2) {
+            $inFirst = array_key_exists($key, $sortedDecoded1);
+            $inSecond = array_key_exists($key, $sortedDecoded2);
+
+            if ($inFirst && $inSecond) {
+                $value1 = $sortedDecoded1[$key];
+                $value2 = $sortedDecoded2[$key];
+
+                if ($value1 === $value2) {
+                    return $carry . "    $key: " . formatValue($value1) . "\n";
+                }
+
+                return $carry
+                    . "  - $key: " . formatValue($value1) . "\n"
+                    . "  + $key: " . formatValue($value2) . "\n";
+            }
+
+            if ($inFirst) {
+                return $carry . "  - $key: " . formatValue($sortedDecoded1[$key]) . "\n";
+            }
+
+            if ($inSecond) {
+                return $carry . "  + $key: " . formatValue($sortedDecoded2[$key]) . "\n";
+            }
+
+            return $carry;
+        },
+        ""
+    );
+
+    return "{\n" . $result . "}\n";
+}
+
+function formatValue($value): string
+{
+    if (is_bool($value)) {
+        return $value ? 'true' : 'false';
+    }
+
+    if (is_null($value)) {
+        return 'null';
+    }
+
+    return (string) $value;
 }

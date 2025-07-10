@@ -51,22 +51,3 @@ if ($args["<secondFile>"]) {
 }
 $diff = genDiff($pathToFile1, $pathToFile2);
 print_r($diff);
-
-//     $firstFile = file_get_contents($pathToFirstFile);
-//     $parsedFirstFile = parseFile($firstFile);
-//     print_r($parsedFirstFile);
-//     // echo $firstFile;
-
-
-// if ($args["<secondFile>"]) {
-//     $pathToSecondFile = realpath($args["<secondFile>"]);
-//     if ($pathToSecondFile === false) {
-//         echo "Файл {$args["<secondFile>"]} не найден\n";
-//         exit(1);
-//     }
-//     $secondFile = file_get_contents($pathToSecondFile);
-//     $parsedSecondFile = parseFile($secondFile);
-//     print_r($parsedSecondFile);
-//     // echo $secondFile;
-// } 
-

@@ -5,7 +5,11 @@
     "autoload": {
         "psr-4": {
             "Hexlet\\Code\\": "src/"
-        }
+        },
+        "files": [
+            "src/Gendiff.php",
+            "src/Parser.php"
+        ]
     },
     "authors": [
         {

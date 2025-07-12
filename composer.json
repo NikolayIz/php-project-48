@@ -19,6 +19,7 @@
     },
     "license": "MIT",
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.13"
+        "squizlabs/php_codesniffer": "^3.13",
+        "phpunit/phpunit": "^10"
     }
 }

@@ -27,28 +27,27 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
             $inFirst = array_key_exists($key, $sortedDecoded1);
             $inSecond = array_key_exists($key, $sortedDecoded2);
 
-            if ($inFirst && $inSecond) {
-                $value1 = $sortedDecoded1[$key];
-                $value2 = $sortedDecoded2[$key];
+            $value1 = $sortedDecoded1[$key] ?? null;
+            $value2 = $sortedDecoded2[$key] ?? null;
 
-                if ($value1 === $value2) {
-                    return $carry . "    $key: " . formatValue($value1) . "\n";
-                }
+            $diffType = match (true) {
+                $inFirst && $inSecond && ($value1 === $value2) => 'equal',
+                $inFirst && $inSecond => 'modified',
+                $inFirst => 'removed',
+                $inSecond => 'added',
+                default => 'none',
+            };
 
-                return $carry
-                    . "  - $key: " . formatValue($value1) . "\n"
-                    . "  + $key: " . formatValue($value2) . "\n";
-            }
+            $line = match ($diffType) {
+                'equal'     => "    $key: " . formatValue($value1) . "\n",
+                'modified'  => "  - $key: " . formatValue($value1) . "\n"
+                             . "  + $key: " . formatValue($value2) . "\n",
+                'removed'   => "  - $key: " . formatValue($value1) . "\n",
+                'added'     => "  + $key: " . formatValue($value2) . "\n",
+                default     => '',
+            };
 
-            if ($inFirst) {
-                return $carry . "  - $key: " . formatValue($sortedDecoded1[$key]) . "\n";
-            }
-
-            if ($inSecond) {
-                return $carry . "  + $key: " . formatValue($sortedDecoded2[$key]) . "\n";
-            }
-
-            return $carry;
+            return $carry . $line;
         },
         ""
     );

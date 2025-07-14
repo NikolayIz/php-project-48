@@ -22,7 +22,7 @@
         "funct/funct": "^1.6"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit tests",
+        "test": "vendor/bin/phpunit --no-coverage tests",
         "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover=coverage.xml tests"
     },
     "license": "MIT",

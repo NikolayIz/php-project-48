@@ -35,8 +35,8 @@ jobs:
     - name: Launch linter
       run: make lint
 
-    # - name: Launch composer test
-    #   run: composer test
+    - name: Launch composer test
+      run: composer test
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v2

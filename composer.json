@@ -21,6 +21,9 @@
         "docopt/docopt": "^1.0",
         "funct/funct": "^1.6"
     },
+    "scripts": {
+        "test": "vendor/bin/phpunit tests"
+    },
     "license": "MIT",
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.13",

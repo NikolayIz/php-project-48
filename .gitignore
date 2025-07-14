@@ -1,1 +1,7 @@
 /vendor/
+
+.phpunit.result.cache
+
+coverage-report/
+
+coverage.xml

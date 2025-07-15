@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\Code\Parser;
+namespace Hexlet\Code\Parsers\Parser;
 
 function parseFile($content): array
 {

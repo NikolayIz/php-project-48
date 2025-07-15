@@ -5,11 +5,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use PHPUnit\Framework\TestCase;
 use function Hexlet\Code\Gendiff\genDiff;
 
-class CompareJsonTest extends TestCase
+class CompareYamlJsonTest extends TestCase
 {
-    public function testJsonGenDiff()
+    public function testYamlJsonGenDiff()
     {
-        $pathToFile1 = __DIR__ . '/fixtures/file1.json';
+        $pathToFile1 = __DIR__ . '/fixtures/file1.yml';
         $pathToFile2 = __DIR__ . '/fixtures/file2.json';
         $expectedPath = __DIR__ . '/fixtures/expected.txt';
         $expected = file_get_contents($expectedPath);
@@ -17,9 +17,9 @@ class CompareJsonTest extends TestCase
         $this->assertEquals(trim($expected), trim($actualResult));
     }
 
-    public function testJsonGenDiffSame()
+    public function testYamlJsonGenDiffSame()
     {
-        $pathToFile1 = __DIR__ . '/fixtures/file1same.json';
+        $pathToFile1 = __DIR__ . '/fixtures/file1same.yml';
         $pathToFile2 = __DIR__ . '/fixtures/file2same.json';
         $expectedPath = __DIR__ . '/fixtures/expectedSameFiles.txt';
         $expected = file_get_contents($expectedPath);

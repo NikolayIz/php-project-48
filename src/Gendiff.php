@@ -2,7 +2,7 @@
 
 namespace Hexlet\Code\Gendiff;
 
-use function Hexlet\Code\Parser\parseFile;
+use function Hexlet\Code\Parsers\Parser\parseFile;
 use function Funct\Collection\sortBy;
 
 function genDiff(string $pathToFile1, string $pathToFile2): string

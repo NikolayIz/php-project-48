@@ -9,13 +9,13 @@ function parseFile($pathToFile): object
     $content = file_get_contents(realpath($pathToFile));
     $extention = pathinfo($pathToFile, PATHINFO_EXTENSION);
 
-    $parser = getParserByExtension($extention);
+    $parser = getParserByExtension($extension);
     return $parser($content);
 }
 
-function getParserByExtension(string $extention): callable
+function getParserByExtension(string $extension): callable
 {
-    return match (strtolower($extention)) {
+    return match (strtolower($extension)) {
         'json' => __NAMESPACE__ . "\\parseJsonFile",
         'yml', 'yaml' => __NAMESPACE__ . "\\parseYamlFile",
         default => throw new \Exception("Unsupported format: $extension"),

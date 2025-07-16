@@ -15,7 +15,7 @@ function parseFile($pathToFile): object
 
 function getParserByExtension(string $extention): callable
 {
-    return match(strtolower($extention)) {
+    return match (strtolower($extention)) {
         'json' => __NAMESPACE__ . "\\parseJsonFile",
         'yml', 'yaml' => __NAMESPACE__ . "\\parseYamlFile",
         default => throw new \Exception("Unsupported format: $extension"),

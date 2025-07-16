@@ -17,7 +17,7 @@ function buildDiffOutput(object $decoded1, object $decoded2): string
 {
     $arrDecoded1 = get_object_vars($decoded1);
     $arrDecoded2 = get_object_vars($decoded2);
-    
+
     $sortedDecoded1 = sortBy($arrDecoded1, fn($value) => $value, 'ksort');
     $sortedDecoded2 = sortBy($arrDecoded2, fn($value) => $value, 'ksort');
     $keys1 = array_keys($sortedDecoded1);

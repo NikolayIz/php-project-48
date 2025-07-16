@@ -11,3 +11,4 @@
 ### Video about using the program:
 https://asciinema.org/connect/befbaa06-3247-423e-a1cd-01e8bd8e2b22
 
+[![asciicast](https://asciinema.org/a/MTfGSbkIHzitzfNnIo6rRTpFF.svg)](https://asciinema.org/a/MTfGSbkIHzitzfNnIo6rRTpFF)

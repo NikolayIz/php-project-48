@@ -4,10 +4,14 @@ namespace Hexlet\Code\Parsers\Parser;
 
 use Symfony\Component\Yaml\Yaml;
 
-function parseFile($pathToFile): object
+function parseFile(string $pathToFile): object
 {
     $content = file_get_contents(realpath($pathToFile));
-    $extention = pathinfo($pathToFile, PATHINFO_EXTENSION);
+    $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
+
+    if (empty($extension)) {
+        throw new \Exception("Cannot determine file format: file has no extension");
+    }
 
     $parser = getParserByExtension($extension);
     return $parser($content);

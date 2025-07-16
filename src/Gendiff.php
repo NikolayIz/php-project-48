@@ -7,19 +7,24 @@ use function Funct\Collection\sortBy;
 
 function genDiff(string $pathToFile1, string $pathToFile2): string
 {
-    $dataFromFile1 = file_get_contents(realpath($pathToFile1));
-    $dataFromFile2 = file_get_contents(realpath($pathToFile2));
-    $decoded1 = parseFile($dataFromFile1);
-    $decoded2 = parseFile($dataFromFile2);
+    $decoded1 = parseFile($pathToFile1);
+    $decoded2 = parseFile($pathToFile2);
 
-    $sortedDecoded1 = sortBy($decoded1, fn($value) => $value, 'ksort');
-    $sortedDecoded2 = sortBy($decoded2, fn($value) => $value, 'ksort');
+    return buildDiffOutput($decoded1, $decoded2);
+}
+
+function buildDiffOutput(object $decoded1, object $decoded2): string
+{
+    $arrDecoded1 = get_object_vars($decoded1);
+    $arrDecoded2 = get_object_vars($decoded2);
+    
+    $sortedDecoded1 = sortBy($arrDecoded1, fn($value) => $value, 'ksort');
+    $sortedDecoded2 = sortBy($arrDecoded2, fn($value) => $value, 'ksort');
     $keys1 = array_keys($sortedDecoded1);
     $keys2 = array_keys($sortedDecoded2);
     $allKeys = array_merge($keys1, $keys2);
     $allUniqKeys = array_unique($allKeys);
     $sortedUniqKeys = sortBy($allUniqKeys, fn($value) => $value, 'asort');
-    // sort($allUniqKeys); мутирующая функция
 
     $result = array_reduce(
         $sortedUniqKeys,

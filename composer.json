@@ -19,7 +19,8 @@
     ],
     "require": {
         "docopt/docopt": "^1.0",
-        "funct/funct": "^1.6"
+        "funct/funct": "^1.6",
+        "symfony/yaml": "^7.3"
     },
     "scripts": {
         "test": "vendor/bin/phpunit --no-coverage tests"

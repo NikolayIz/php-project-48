@@ -26,4 +26,14 @@ class CompareYamlJsonTest extends TestCase
         $actualResult = genDiff($pathToFile1, $pathToFile2);
         $this->assertEquals(trim($expected), trim($actualResult));
     }
+
+    public function testYamlJsonGenDiffNested()
+    {
+        $pathToFile1 = __DIR__ . '/fixtures/file1nested.yml';
+        $pathToFile2 = __DIR__ . '/fixtures/file2nested.json';
+        $expectedPath = __DIR__ . '/fixtures/expectedNested.txt';
+        $expected = file_get_contents($expectedPath);
+        $actualResult = genDiff($pathToFile1, $pathToFile2);
+        $this->assertEquals(trim($expected), trim($actualResult));
+    }
 }

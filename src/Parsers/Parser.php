@@ -10,7 +10,7 @@ function parseFile(string $pathToFile): array
     $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
 
     if (empty($extension)) {
-        throw new \Exception("Cannot determine file format: file has no extension");
+        die("ERROR: Cannot determine file format: file has no extension");
     }
 
     $parser = getParserByExtension($extension);
@@ -22,7 +22,7 @@ function getParserByExtension(string $extension): callable
     return match (strtolower($extension)) {
         'json' => __NAMESPACE__ . "\\parseJsonFile",
         'yml', 'yaml' => __NAMESPACE__ . "\\parseYamlFile",
-        default => throw new \Exception("Unsupported format: $extension"),
+        default => die("ERROR: Unsupported format: $extension"),
     };
 }
 

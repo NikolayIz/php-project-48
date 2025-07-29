@@ -18,7 +18,7 @@ Usage:
 Options:
   -h --help                     Show this screen
   -v --version                  Show version
-  --format <fmt>                Report format [default: stylish]
+  -f --format <fmt>             Report format [default: stylish]
 DOC;
 
 use Docopt\Handler;
@@ -49,5 +49,8 @@ if ($args["<secondFile>"]) {
         exit(1);
     }
 }
-$diff = genDiff($pathToFile1, $pathToFile2);
+
+$format = $args['--format'];
+
+$diff = genDiff($pathToFile1, $pathToFile2, $format);
 print_r($diff);

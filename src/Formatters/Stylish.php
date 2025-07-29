@@ -38,7 +38,7 @@ function formatterStylish(array $tree, $depth = 1): string
                 $result[] = "$shortIndent" . "+ $key: " . "$formattedValue2";
                 break;
             default:
-                throw new \Exception("Unknown diff between two values from files");
+                die("ERROR: Unknown diff between two values from files");
         }
     }
     $resultString = "{\n" . implode("\n", $result) . "\n" . $closeIndent . "}";
@@ -58,7 +58,7 @@ function formatValue(mixed $value, $depth = 1): string
         );
 
         return "{\n" . implode("\n", $lines) . "\n" . $shortIndent . "}";
-    };
+    }
     return match (true) {
         is_bool($value) => $value ? 'true' : 'false',
         is_null($value) => 'null',

@@ -9,7 +9,7 @@ function buildDiff(array $tree1, array $tree2): array
     $allKeys = array_unique(array_merge(array_keys($tree1), array_keys($tree2)));
     sort($allKeys);
     $allSortedKeys = sortBy($allKeys, fn($v) => $v, 'ksort');
-    $allSortdeKeys = array_values($allSortedKeys);
+    $allSortedKeys = array_values($allSortedKeys);
 
     $newTree = [];
 
@@ -26,7 +26,7 @@ function buildDiff(array $tree1, array $tree2): array
             $inFirst && $inSecond => 'changed',
             $inFirst => 'removed',
             $inSecond => 'added',
-            default => throw new \Exception("Unknown diff between two values from files"),
+            default => die("ERROR: Unknown diff between two values from files"),
         };
         $newTree[$key] = [];
         $newTree[$key]['name'] = $key;
@@ -54,7 +54,7 @@ function buildDiff(array $tree1, array $tree2): array
                 $newTree[$key]['value2'] = $value2;
                 break;
             default:
-                throw new \Exception("Unknown diff between two values from files");
+                die("ERROR: Unknown diff between two values from files");
         }
     }
     return $newTree;

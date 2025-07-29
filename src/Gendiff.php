@@ -21,21 +21,6 @@ function getFormatter(string $formatter)
 {
     return match ($formatter) {
         'stylish' => 'Hexlet\Code\Formatters\Stylish\formatterStylish',
-        default => throw new \Exception("Unknown formatter: $formatter"),
+        default => die("ERROR: Unknown formatter: $formatter"),
     };
 }
-
-//НЕ ЗАПУСКАЕТСЯ ФОРМАТТЕР - РЕШИТЬ ПРОБЛЕМУ, ПОТОМ НАПИСАТЬ ФОРМАТТЕР И ИДТИ ДАЛЬШЕ ПО ПРОЕКТУ
-
-// function formatValue($value): string
-// {
-//     if (is_bool($value)) {
-//         return $value ? 'true' : 'false';
-//     }
-
-//     if (is_null($value)) {
-//         return 'null';
-//     }
-
-//     return (string) $value;
-// }

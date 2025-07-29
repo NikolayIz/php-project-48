@@ -4,7 +4,7 @@ namespace Hexlet\Code\Parsers\Parser;
 
 use Symfony\Component\Yaml\Yaml;
 
-function parseFile(string $pathToFile): object
+function parseFile(string $pathToFile): array
 {
     $content = file_get_contents(realpath($pathToFile));
     $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
@@ -26,12 +26,12 @@ function getParserByExtension(string $extension): callable
     };
 }
 
-function parseJsonFile(string $content): object
+function parseJsonFile(string $content): array
 {
-    return json_decode($content);
+    return json_decode($content, true);
 }
 
-function parseYamlFile(string $content): object
+function parseYamlFile(string $content): array
 {
-    return Yaml::parse($content, Yaml::PARSE_OBJECT_FOR_MAP);
+    return Yaml::parse($content);
 }

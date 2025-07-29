@@ -4,7 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use function Hexlet\Code\Gendiff\formatValue;
+use function Hexlet\Code\Formatters\Stylish\formatValue;
 
 class FormatValueTest extends TestCase
 {

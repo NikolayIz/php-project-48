@@ -15,30 +15,30 @@ function formatterStylish(array $tree, $depth = 1): string
                 $line = formatterStylish($value["children"], $depth + 1);
                 $result[] = "$indent" . "$key: " . "$line";
                 break;
-        
+
             case 'unchanged':
                 $formattedValue = formatValue($value['value'], $depth);
                 $result[] = "$indent" . "$key: " . "$formattedValue";
                 break;
-        
+
             case 'changed':
                 $formattedValue1 = formatValue($value['value1'], $depth);
                 $formattedValue2 = formatValue($value['value2'], $depth);
                 $result[] = "$shortIndent" . "- $key: " . "$formattedValue1";
                 $result[] = "$shortIndent" . "+ $key: " . "$formattedValue2";
                 break;
-        
+
             case 'removed':
                 $formattedValue1 = formatValue($value['value1'], $depth);
                 $result[] = "$shortIndent" . "- $key: " . "$formattedValue1";
                 break;
-        
+
             case 'added':
                 $formattedValue2 = formatValue($value['value2'], $depth);
                 $result[] = "$shortIndent" . "+ $key: " . "$formattedValue2";
                 break;
             default:
-                throw new \Exception("Unknown diff between two values from files");        
+                throw new \Exception("Unknown diff between two values from files");
         }
     }
     $resultString = "{\n" . implode("\n", $result) . "\n" . $closeIndent . "}";
@@ -47,7 +47,7 @@ function formatterStylish(array $tree, $depth = 1): string
 
 function formatValue(mixed $value, $depth = 1): string
 {
-	if (is_array($value)) {
+    if (is_array($value)) {
         $indent = str_repeat(' ', (($depth + 1) * 4));
         $shortIndent = str_repeat(' ', (($depth + 1) * 4) - 4);
 
@@ -60,15 +60,8 @@ function formatValue(mixed $value, $depth = 1): string
         return "{\n" . implode("\n", $lines) . "\n" . $shortIndent . "}";
     };
     return match (true) {
-		is_bool($value) => $value ? 'true' : 'false',
-		is_null($value) => 'null',
-		default => (string) $value,
-	};
+        is_bool($value) => $value ? 'true' : 'false',
+        is_null($value) => 'null',
+        default => (string) $value,
+    };
 }
-
-// Разобраться с отступами, возможно уже сделал это
-// И после отступов разобраться с массивами, хотя может с ними все и ок
-// Затем с пробеом где wow проверить все ли окей
-// Могу предположить что надо если массив, то добавлять глубины помогло
-// Затем после последней скобки перенос добавить и вроде бы готов стайлишь
-// Дальше надо будет добавить его в нашу консольную штуку забыл вообще как там все это называется даже

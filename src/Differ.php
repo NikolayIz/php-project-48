@@ -10,7 +10,7 @@ function buildDiff(array $tree1, array $tree2): array
     sort($allKeys);
     $allSortedKeys = sortBy($allKeys, fn($v) => $v, 'ksort');
     $allSortdeKeys = array_values($allSortedKeys);
-    
+
     $newTree = [];
 
     foreach ($allSortedKeys as $key) {
@@ -36,20 +36,20 @@ function buildDiff(array $tree1, array $tree2): array
             case 'nested':
                 $newTree[$key]['children'] = buildDiff($tree1[$key], $tree2[$key]);
                 break;
-        
+
             case 'unchanged':
                 $newTree[$key]['value'] = $value1;
                 break;
-        
+
             case 'changed':
                 $newTree[$key]['value1'] = $value1;
                 $newTree[$key]['value2'] = $value2;
                 break;
-        
+
             case 'removed':
                 $newTree[$key]['value1'] = $value1;
                 break;
-        
+
             case 'added':
                 $newTree[$key]['value2'] = $value2;
                 break;

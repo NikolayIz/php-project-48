@@ -5,7 +5,6 @@ namespace Hexlet\Code\Gendiff;
 use function Hexlet\Code\Parsers\Parser\parseFile;
 use function Funct\Collection\sortBy;
 use function Hexlet\Code\Differ\buildDiff;
-// use function Hexlet\Code\Formatters\Stylish\formatterStylish;
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $formatter = 'stylish'): string
 {
@@ -20,7 +19,7 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $formatter = '
 
 function getFormatter(string $formatter)
 {
-    return match($formatter) {
+    return match ($formatter) {
         'stylish' => 'Hexlet\Code\Formatters\Stylish\formatterStylish',
         default => throw new \Exception("Unknown formatter: $formatter"),
     };

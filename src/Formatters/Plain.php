@@ -7,7 +7,7 @@ function formatterPlain(array $tree, $depth = 1, $path = ''): string
     $result = [];
     $startWord = "Property";
     foreach ($tree as $key => $value) {
-        $newPath = trim($path . "." . $value["name"], ".");
+        $newPath = trim($path . "." . $key, ".");
         switch ($value["type"]) {
             case 'nested':
                 $line = formatterPlain($value["children"], $depth + 1, $newPath);

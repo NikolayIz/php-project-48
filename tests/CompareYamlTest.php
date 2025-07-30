@@ -36,4 +36,14 @@ class CompareYamlTest extends TestCase
         $actualResult = genDiff($pathToFile1, $pathToFile2);
         $this->assertEquals(trim($expected), trim($actualResult));
     }
+
+    public function testYamlGenDiffPlain()
+    {
+        $pathToFile1 = __DIR__ . '/fixtures/file1nested.yml';
+        $pathToFile2 = __DIR__ . '/fixtures/file2nested.yml';
+        $expectedPath = __DIR__ . '/fixtures/expectedPlain.txt';
+        $expected = file_get_contents($expectedPath);
+        $actualResult = genDiff($pathToFile1, $pathToFile2, 'plain');
+        $this->assertEquals(trim($expected), trim($actualResult));
+    }
 }

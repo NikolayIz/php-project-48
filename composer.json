@@ -10,7 +10,9 @@
             "src/Gendiff.php",
             "src/Parsers/Parser.php",
             "src/Differ.php",
-            "src/Formatters/Stylish.php"
+            "src/Formatters/Stylish.php",
+            "src/Formatters.php",
+            "src/Formatters/Plain.php"
         ]
     },
     "authors": [

@@ -4,15 +4,15 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use function Hexlet\Code\Formatters\Stylish\formatValue;
+use function Hexlet\Code\Formatters\Stylish\formatValueStylish;
 
-class FormatValueTest extends TestCase
+class FormatValueStylishTest extends TestCase
 {
     #[DataProvider('valuesProvider')]
-    public function testFormatValue($expected, $argument)
+    public function testFormatValueStylish($expected, $argument)
     {
         $value = 'test';
-        $this->assertEquals($expected, formatValue($argument));
+        $this->assertEquals($expected, formatValueStylish($argument));
     }
 
     public static function valuesProvider(): array

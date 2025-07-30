@@ -17,26 +17,27 @@ function formatterStylish(array $tree, $depth = 1): string
                 break;
 
             case 'unchanged':
-                $formattedValue = formatValue($value['value'], $depth);
+                $formattedValue = formatValueStylish($value['value'], $depth);
                 $result[] = "$indent" . "$key: " . "$formattedValue";
                 break;
 
             case 'changed':
-                $formattedValue1 = formatValue($value['value1'], $depth);
-                $formattedValue2 = formatValue($value['value2'], $depth);
+                $formattedValue1 = formatValueStylish($value['value1'], $depth);
+                $formattedValue2 = formatValueStylish($value['value2'], $depth);
                 $result[] = "$shortIndent" . "- $key: " . "$formattedValue1";
                 $result[] = "$shortIndent" . "+ $key: " . "$formattedValue2";
                 break;
 
             case 'removed':
-                $formattedValue1 = formatValue($value['value1'], $depth);
+                $formattedValue1 = formatValueStylish($value['value1'], $depth);
                 $result[] = "$shortIndent" . "- $key: " . "$formattedValue1";
                 break;
 
             case 'added':
-                $formattedValue2 = formatValue($value['value2'], $depth);
+                $formattedValue2 = formatValueStylish($value['value2'], $depth);
                 $result[] = "$shortIndent" . "+ $key: " . "$formattedValue2";
                 break;
+
             default:
                 die("ERROR: Unknown diff between two values from files");
         }
@@ -45,14 +46,14 @@ function formatterStylish(array $tree, $depth = 1): string
     return $depth === 1 ? $resultString . "\n" : $resultString;
 }
 
-function formatValue(mixed $value, $depth = 1): string
+function formatValueStylish(mixed $value, $depth = 1): string
 {
     if (is_array($value)) {
         $indent = str_repeat(' ', (($depth + 1) * 4));
         $shortIndent = str_repeat(' ', (($depth + 1) * 4) - 4);
 
         $lines = array_map(
-            fn($key, $val) => $indent . "$key: " . formatValue($val, $depth + 1),
+            fn($key, $val) => $indent . "$key: " . formatValueStylish($val, $depth + 1),
             array_keys($value),
             $value
         );

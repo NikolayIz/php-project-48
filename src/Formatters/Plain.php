@@ -1,9 +1,8 @@
 <?php
 
-namespace Hexlet\Code\Formatters\Stylish;
+namespace Hexlet\Code\Formatters\Plain;
 
-function formatterPlain()
+function formatterPlain(array $tree): string
 {
-    return 'plain';
+    return "WORK PLAIN \n";
 }
-

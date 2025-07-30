@@ -2,7 +2,7 @@
 
 namespace Hexlet\Code\Formatters\Formatters;
 
-function getFormatter(string $formatter): callable
+function getFormatter(string $formatter): string
 {
     return match ($formatter) {
         'stylish' => 'Hexlet\Code\Formatters\Stylish\formatterStylish',

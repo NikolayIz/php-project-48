@@ -7,57 +7,57 @@ use function Funct\Collection\sortBy;
 function buildDiff(array $tree1, array $tree2): array
 {
     $allKeys = array_unique(array_merge(array_keys($tree1), array_keys($tree2)));
-    sort($allKeys);
-    $allSortedKeys = sortBy($allKeys, fn($v) => $v, 'ksort');
-    $allSortedKeys = array_values($allSortedKeys);
+    $allSortedKeys = sortBy($allKeys, fn($v) => $v);
 
-    $newTree = [];
-
-    foreach ($allSortedKeys as $key) {
+    $diffTree = array_reduce($allSortedKeys, function ($acc, $key) use ($tree1, $tree2) {
         $inFirst = array_key_exists($key, $tree1);
         $inSecond = array_key_exists($key, $tree2);
-
+    
         $value1 = $tree1[$key] ?? null;
         $value2 = $tree2[$key] ?? null;
-
-        $diffType = match (true) {
+    
+        $type = match (true) {
             isAssoc($value1) && isAssoc($value2) => 'nested',
             $inFirst && $inSecond && ($value1 === $value2) => 'unchanged',
             $inFirst && $inSecond => 'changed',
             $inFirst => 'removed',
             $inSecond => 'added',
-            default => die("ERROR: Unknown diff between two values from files"),
+            default => throw new \Exception("Unknown diff"),
         };
-        $newTree[$key] = [];
-        $newTree[$key]['name'] = $key;
-        $newTree[$key]['type'] = $diffType;
+    
+        $acc[$key] = match ($type) {
+            'nested' => [
+                'name' => $key,
+                'type' => $type,
+                'children' => buildDiff($value1, $value2)
+            ],
+            'unchanged' => [
+                'name' => $key,
+                'type' => $type,
+                'value' => $value1
+            ],
+            'changed' => [
+                'name' => $key,
+                'type' => $type,
+                'value1' => $value1,
+                'value2' => $value2,
+            ],
+            'removed' => [
+                'name' => $key,
+                'type' => $type,
+                'value1' => $value1
+            ],
+            'added' => [
+                'name' => $key,
+                'type' => $type,
+                'value2' => $value2
+            ],
+        };
+    
+        return $acc;
+    }, []);
 
-        switch ($diffType) {
-            case 'nested':
-                $newTree[$key]['children'] = buildDiff($tree1[$key], $tree2[$key]);
-                break;
-
-            case 'unchanged':
-                $newTree[$key]['value'] = $value1;
-                break;
-
-            case 'changed':
-                $newTree[$key]['value1'] = $value1;
-                $newTree[$key]['value2'] = $value2;
-                break;
-
-            case 'removed':
-                $newTree[$key]['value1'] = $value1;
-                break;
-
-            case 'added':
-                $newTree[$key]['value2'] = $value2;
-                break;
-            default:
-                die("ERROR: Unknown diff between two values from files");
-        }
-    }
-    return $newTree;
+    return $diffTree;
 }
 
 function isAssoc(mixed $array): bool

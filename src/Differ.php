@@ -12,10 +12,10 @@ function buildDiff(array $tree1, array $tree2): array
     $diffTree = array_reduce($allSortedKeys, function ($acc, $key) use ($tree1, $tree2) {
         $inFirst = array_key_exists($key, $tree1);
         $inSecond = array_key_exists($key, $tree2);
-    
+
         $value1 = $tree1[$key] ?? null;
         $value2 = $tree2[$key] ?? null;
-    
+
         $type = match (true) {
             isAssoc($value1) && isAssoc($value2) => 'nested',
             $inFirst && $inSecond && ($value1 === $value2) => 'unchanged',
@@ -24,7 +24,7 @@ function buildDiff(array $tree1, array $tree2): array
             $inSecond => 'added',
             default => throw new \Exception("Unknown diff"),
         };
-    
+
         $acc[$key] = match ($type) {
             'nested' => [
                 'name' => $key,
@@ -53,7 +53,7 @@ function buildDiff(array $tree1, array $tree2): array
                 'value2' => $value2
             ],
         };
-    
+
         return $acc;
     }, []);
 

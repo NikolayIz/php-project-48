@@ -10,36 +10,40 @@
 
 # Gendiff
 
-**Gendiff** — это консольная утилита для сравнения двух конфигурационных файлов.  
-Программа показывает различия в удобочитаемом виде: древовидном (по умолчанию), plain-тексте или JSON.
+# Gendiff
 
-### 🔧 Поддерживаемые форматы входных данных:
+**Gendiff** is a command-line utility for comparing two configuration files.  
+It shows the differences in a readable format: as a tree (default), in plain text, or in JSON.
+
+### 🔧 Supported input formats:
 - **JSON**
 - **YAML / YML**
 
-### 🧰 Возможности:
-- Определение различий между файлами с вложенной структурой
-- Три режима отображения результата:
-  - `stylish` (по умолчанию)
+### 🧰 Features:
+- Detects differences in files with nested structures
+- Three output formats:
+  - `stylish` (default)
   - `plain`
   - `json`
-- Поддержка разных форматов данных
-- Удобная CLI-интеграция
+- Supports multiple data formats
+- Simple CLI interface
 
-## 🚀 Установка
+---
+
+## 🚀 Installation
 
 ```bash
 git clone https://github.com/NikolayIz/php-project-48.git
 cd php-project-48
 make install
 
-# команда help
+# Show help
 gendiff -h
 
-# Сравнение двух файлов
+# Compare two files
 gendiff file1.json file2.json
 
-# Сравнение с указанием формата вывода
+# Compare two files with a specific output format
 gendiff --format plain file1.yml file2.yml
 gendiff --format json file1.yml file2.yml
 

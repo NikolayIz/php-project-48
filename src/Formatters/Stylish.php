@@ -4,46 +4,49 @@ namespace Hexlet\Code\Formatters\Stylish;
 
 function formatterStylish(array $tree, $depth = 1): string
 {
-    $result = [];
+    $resultArr = [];
     $indent = str_repeat(' ', $depth * 4);
     $shortIndent = str_repeat(' ', $depth * 4 - 2);
     $closeIndent = str_repeat(' ', $depth * 4 - 4);
 
-    foreach ($tree as $key => $value) {
+    $resultArr = array_reduce($tree, function ($acc, $value) use ($depth, $indent, $shortIndent) {
         switch ($value['type']) {
             case 'nested':
                 $line = formatterStylish($value["children"], $depth + 1);
-                $result[] = "$indent" . "$key: " . "$line";
+                $acc[] = "{$indent}{$value['name']}: {$line}";
                 break;
 
             case 'unchanged':
                 $formattedValue = formatValueStylish($value['value'], $depth);
-                $result[] = "$indent" . "$key: " . "$formattedValue";
+                $acc[] = "{$indent}{$value['name']}: {$formattedValue}";
                 break;
 
             case 'changed':
                 $formattedValue1 = formatValueStylish($value['value1'], $depth);
                 $formattedValue2 = formatValueStylish($value['value2'], $depth);
-                $result[] = "$shortIndent" . "- $key: " . "$formattedValue1";
-                $result[] = "$shortIndent" . "+ $key: " . "$formattedValue2";
+                $acc[] = "{$shortIndent}- {$value['name']}: {$formattedValue1}";
+                $acc[] = "{$shortIndent}+ {$value['name']}: {$formattedValue2}";
                 break;
 
             case 'removed':
                 $formattedValue1 = formatValueStylish($value['value1'], $depth);
-                $result[] = "$shortIndent" . "- $key: " . "$formattedValue1";
+                $acc[] = "{$shortIndent}- {$value['name']}: {$formattedValue1}";
                 break;
 
             case 'added':
                 $formattedValue2 = formatValueStylish($value['value2'], $depth);
-                $result[] = "$shortIndent" . "+ $key: " . "$formattedValue2";
+                $acc[] = "{$shortIndent}+ {$value['name']}: {$formattedValue2}";
                 break;
 
             default:
                 die("ERROR: Unknown diff between two values from files");
         }
-    }
-    $resultString = "{\n" . implode("\n", $result) . "\n" . $closeIndent . "}";
-    return $depth === 1 ? $resultString . "\n" : $resultString;
+        return $acc;
+    }, []);
+
+    $resultString = implode("\n", $resultArr);
+    $resultFullString = "{\n{$resultString}\n{$closeIndent}}";
+    return $depth === 1 ? "{$resultFullString}\n" : "{$resultFullString}";
 }
 
 function formatValueStylish(mixed $value, $depth = 1): string

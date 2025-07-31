@@ -33,12 +33,17 @@ git clone https://github.com/NikolayIz/php-project-48.git
 cd php-project-48
 make install
 
+# команда help
+gendiff -h
+
 # Сравнение двух файлов
 gendiff file1.json file2.json
 
 # Сравнение с указанием формата вывода
 gendiff --format plain file1.yml file2.yml
 gendiff --format json file1.yml file2.yml
+
+```
 
 ### Video about using the program:
 

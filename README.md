@@ -10,8 +10,6 @@
 
 # Gendiff
 
-# Gendiff
-
 **Gendiff** is a command-line utility for comparing two configuration files.  
 It shows the differences in a readable format: as a tree (default), in plain text, or in JSON.
 

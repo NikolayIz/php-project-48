@@ -6,7 +6,7 @@ function formatterPlain(array $tree, int $depth = 1, string $path = ''): string
 {
     $startWord = "Property";
 
-    $lines = array_reduce($tree, function ($acc, $value) use ($startWord, $depth, $path) {
+    $lines = array_map(function ($value) use ($startWord, $depth, $path) {
         $newPath = trim("{$path}.{$value['name']}", ".");
         return match ($value["type"]) {
             'nested' => formatterPlain($value["children"], $depth + 1, $newPath),
@@ -27,8 +27,8 @@ function formatterPlain(array $tree, int $depth = 1, string $path = ''): string
             ),
             default => die("ERROR: Unknown diff type '{$value['type']}'"),
         };
-        return $acc;
     }, $tree);
+
     $filteredLines = array_filter($lines, fn($line) => $line !== null);
     $resultString = implode("\n", $filteredLines);
     return $depth === 1 ? "{$resultString}\n" : $resultString;

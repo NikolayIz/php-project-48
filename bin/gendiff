@@ -4,7 +4,7 @@
 error_reporting(E_ALL & ~E_DEPRECATED);
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use function Hexlet\Code\Gendiff\genDiff;
+use function Hexlet\Code\Differ\Differ\genDiff;
 
 $doc = <<<DOC
 

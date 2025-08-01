@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
-use function Hexlet\Code\Gendiff\genDiff;
+use function Hexlet\Code\Differ\Differ\genDiff;
 
 class CompareYamlJsonTest extends TestCase
 {

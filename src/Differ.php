@@ -1,10 +1,10 @@
 <?php
 
-namespace Hexlet\Code\Differ\Differ;
+namespace Differ\Differ;
 
-use function Hexlet\Code\Parsers\Parser\parseFile;
+use function Parsers\Parser\parseFile;
 use function Funct\Collection\sortBy;
-use function Hexlet\Code\Formatters\Formatters\getFormatter;
+use function Formatters\Formatters\getFormatter;
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $formatter = 'stylish'): string
 {

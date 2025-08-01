@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\Code\Formatters\Formatters;
+namespace Differ\Formatters\Formatters;
 
 function getFormatter(string $formatter): string
 {

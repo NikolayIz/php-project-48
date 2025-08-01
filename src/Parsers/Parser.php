@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\Code\Parsers\Parser;
+namespace Differ\Parsers\Parser;
 
 use Symfony\Component\Yaml\Yaml;
 

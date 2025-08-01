@@ -4,11 +4,11 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Hexlet\\Code\\": "src/"
+            "Differ\\": "src/"
         },
         "files": [
             "src/Parsers/Parser.php",
-            "src/Differ/Differ.php",
+            "src/Differ.php",
             "src/Formatters.php",
             "src/Formatters/Stylish.php",
             "src/Formatters/Plain.php",

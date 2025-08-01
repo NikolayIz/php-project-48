@@ -14,7 +14,7 @@ function parseFile(string $pathToFile): array
     $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
 
     if ($extension === '') {
-        throw new \InvalidArgumentException("Formatter '{$formatter}' is not callable.");
+        throw new \InvalidArgumentException("Extension '{$extension}' is not valid.");
     }
 
     $parser = getParserByExtension($extension);

@@ -49,6 +49,7 @@ function formatValuePlain(mixed $value): string
     return match (true) {
         is_bool($value) => $value ? 'true' : 'false',
         is_null($value) => 'null',
+        is_int($value) => $value,
         default => "'{$value}'",
     };
 }

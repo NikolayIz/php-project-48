@@ -16,7 +16,7 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $formatter = '
     $functionFormatter = getFormatter($formatter);
 
     if (!is_callable($functionFormatter)) {
-        throw new \RuntimeException("Formatter '{$formatter}' is not callable.");
+        throw new \InvalidArgumentException("Formatter '{$formatter}' is not callable.");
     }
 
     return $functionFormatter($diff);

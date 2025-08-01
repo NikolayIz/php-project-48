@@ -8,13 +8,13 @@ function parseFile(string $pathToFile): array
 {
     $realPath = realpath($pathToFile);
     if ($realPath === false) {
-        die("ERROR: File not found at path: $pathToFile");
+        throw new \InvalidArgumentException("ERROR: File not found at path: $pathToFile");
     }
     $content = file_get_contents($realPath);
     $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
 
     if ($extension === '') {
-        throw new \RuntimeException("ERROR: Cannot determine file format: file has no extension");
+        throw new \InvalidArgumentException("Formatter '{$formatter}' is not callable.");
     }
 
     $parser = getParserByExtension($extension);
@@ -26,7 +26,7 @@ function getParserByExtension(string $extension): callable
     return match (strtolower($extension)) {
         'json' => __NAMESPACE__ . "\\parseJsonFile",
         'yml', 'yaml' => __NAMESPACE__ . "\\parseYamlFile",
-        default => throw new \RuntimeException("ERROR: Unsupported format: $extension"),
+        default => throw new \InvalidArgumentException("Unsupported format: '$extension'"),
     };
 }
 

@@ -2,7 +2,7 @@
 
 namespace Differ\Formatters\Stylish;
 
-function formatterStylish(array $tree, $depth = 1): string
+function formatterStylish(array $tree, int $depth = 1): string
 {
     $resultArr = [];
     $indent = str_repeat(' ', $depth * 4);
@@ -49,7 +49,7 @@ function formatterStylish(array $tree, $depth = 1): string
     return $depth === 1 ? "{$resultFullString}\n" : "{$resultFullString}";
 }
 
-function formatValueStylish(mixed $value, $depth = 1): string
+function formatValueStylish(mixed $value, int $depth = 1): string
 {
     if (is_array($value)) {
         $indent = str_repeat(' ', (($depth + 1) * 4));

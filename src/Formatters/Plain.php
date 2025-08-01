@@ -2,7 +2,7 @@
 
 namespace Differ\Formatters\Plain;
 
-function formatterPlain(array $tree, $depth = 1, $path = ''): string
+function formatterPlain(array $tree, int $depth = 1, string $path = ''): string
 {
     $startWord = "Property";
 
@@ -41,7 +41,7 @@ function formatterPlain(array $tree, $depth = 1, $path = ''): string
     return $depth === 1 ? "{$resultString}\n" : $resultString;
 }
 
-function formatValuePlain(mixed $value): string
+function formatValuePlain(mixed $value): int|string
 {
     if (is_array($value)) {
         return "[complex value]";

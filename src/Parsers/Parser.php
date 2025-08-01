@@ -6,10 +6,14 @@ use Symfony\Component\Yaml\Yaml;
 
 function parseFile(string $pathToFile): array
 {
-    $content = file_get_contents(realpath($pathToFile));
+    $realPath = realpath($pathToFile);
+    if ($realPath === false) {
+        die("ERROR: File not found at path: $pathToFile");
+    }
+    $content = file_get_contents($realPath);
     $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
 
-    if (empty($extension)) {
+    if ($extension === null || $extension === '') {
         die("ERROR: Cannot determine file format: file has no extension");
     }
 

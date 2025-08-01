@@ -14,6 +14,11 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $formatter = '
     $diff = buildDiff($parsedData1, $parsedData2);
 
     $functionFormatter = getFormatter($formatter);
+
+    if (!is_callable($functionFormatter)) {
+        die("Formatter '{$formatter}' is not callable.");
+    }
+
     return $functionFormatter($diff);
 }
 
@@ -38,7 +43,7 @@ function buildDiff(array $tree1, array $tree2): array
             default => die("Unknown diff"),
         };
 
-        $acc[$key] = match ($type) {
+        $newNode = match ($type) {
             'nested' => [
                 'name' => $key,
                 'type' => $type,
@@ -67,7 +72,7 @@ function buildDiff(array $tree1, array $tree2): array
             ],
         };
 
-        return $acc;
+        return [...$acc, $key => $newNode];
     }, []);
 }
 

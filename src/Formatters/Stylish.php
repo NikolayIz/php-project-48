@@ -4,49 +4,59 @@ namespace Differ\Formatters\Stylish;
 
 function formatterStylish(array $tree, int $depth = 1): string
 {
-    $resultArr = [];
     $indent = str_repeat(' ', $depth * 4);
     $shortIndent = str_repeat(' ', $depth * 4 - 2);
     $closeIndent = str_repeat(' ', $depth * 4 - 4);
 
-    $resultArr = array_reduce($tree, function ($acc, $value) use ($depth, $indent, $shortIndent) {
-        switch ($value['type']) {
-            case 'nested':
-                $line = formatterStylish($value["children"], $depth + 1);
-                $acc[] = "{$indent}{$value['name']}: {$line}";
-                break;
+    $lines = array_map(function ($value) use ($depth, $indent, $shortIndent) {
+        $name = $value['name'];
 
-            case 'unchanged':
-                $formattedValue = formatValueStylish($value['value'], $depth);
-                $acc[] = "{$indent}{$value['name']}: {$formattedValue}";
-                break;
+        return match ($value['type']) {
+            'nested' => sprintf(
+                "%s%s: %s",
+                $indent,
+                $name,
+                formatterStylish($value["children"], $depth + 1)
+            ),
+            'unchanged' => sprintf(
+                "%s%s: %s",
+                $indent,
+                $name,
+                formatValueStylish($value['value'], $depth)
+            ),
+            'changed' => implode("\n", [
+                sprintf(
+                    "%s- %s: %s",
+                    $shortIndent,
+                    $name,
+                    formatValueStylish($value['value1'], $depth)
+                ),
+                sprintf(
+                    "%s+ %s: %s",
+                    $shortIndent,
+                    $name,
+                    formatValueStylish($value['value2'], $depth)
+                ),
+            ]),
+            'removed' => sprintf(
+                "%s- %s: %s",
+                $shortIndent,
+                $name,
+                formatValueStylish($value['value1'], $depth)
+            ),
+            'added' => sprintf(
+                "%s+ %s: %s",
+                $shortIndent,
+                $name,
+                formatValueStylish($value['value2'], $depth)
+            ),
+            default => die("Unknown diff type: {$value['type']}"),
+        };
+    }, $tree);
 
-            case 'changed':
-                $formattedValue1 = formatValueStylish($value['value1'], $depth);
-                $formattedValue2 = formatValueStylish($value['value2'], $depth);
-                $acc[] = "{$shortIndent}- {$value['name']}: {$formattedValue1}";
-                $acc[] = "{$shortIndent}+ {$value['name']}: {$formattedValue2}";
-                break;
-
-            case 'removed':
-                $formattedValue1 = formatValueStylish($value['value1'], $depth);
-                $acc[] = "{$shortIndent}- {$value['name']}: {$formattedValue1}";
-                break;
-
-            case 'added':
-                $formattedValue2 = formatValueStylish($value['value2'], $depth);
-                $acc[] = "{$shortIndent}+ {$value['name']}: {$formattedValue2}";
-                break;
-
-            default:
-                die("ERROR: Unknown diff between two values from files");
-        }
-        return $acc;
-    }, []);
-
-    $resultString = implode("\n", $resultArr);
-    $resultFullString = "{\n{$resultString}\n{$closeIndent}}";
-    return $depth === 1 ? "{$resultFullString}\n" : "{$resultFullString}";
+    $result = implode("\n", $lines);
+    $full = "{\n{$result}\n{$closeIndent}}";
+    return $depth === 1 ? "{$full}\n" : $full;
 }
 
 function formatValueStylish(mixed $value, int $depth = 1): string

@@ -6,38 +6,31 @@ function formatterPlain(array $tree, int $depth = 1, string $path = ''): string
 {
     $startWord = "Property";
 
-    $result = array_reduce($tree, function ($acc, $value) use ($startWord, $depth, $path) {
+    $lines = array_reduce($tree, function ($acc, $value) use ($startWord, $depth, $path) {
         $newPath = trim("{$path}.{$value['name']}", ".");
-        switch ($value["type"]) {
-            case 'nested':
-                $acc[] = formatterPlain($value["children"], $depth + 1, $newPath);
-                break;
-
-            case 'unchanged':
-                break;
-
-            case 'changed':
-                $value1 = formatValuePlain($value['value1']);
-                $value2 = formatValuePlain($value['value2']);
-                $acc[] = "$startWord '$newPath' was updated. From $value1 to $value2";
-                break;
-
-            case 'removed':
-                $acc[] = "$startWord '$newPath' was removed";
-                break;
-
-            case 'added':
-                $value2 = formatValuePlain($value['value2']);
-                $acc[] = "$startWord '$newPath' was added with value: $value2";
-                break;
-
-            default:
-                die("ERROR: Unknown diff between two values from files");
-        }
+        return match ($value["type"]) {
+            'nested' => formatterPlain($value["children"], $depth + 1, $newPath),
+            'unchanged' => null,
+            'changed' => sprintf(
+                "%s '%s' was updated. From %s to %s",
+                $startWord,
+                $newPath,
+                formatValuePlain($value['value1']),
+                formatValuePlain($value['value2'])
+            ),
+            'removed' => sprintf("%s '%s' was removed", $startWord, $newPath),
+            'added' => sprintf(
+                "%s '%s' was added with value: %s",
+                $startWord,
+                $newPath,
+                formatValuePlain($value['value2'])
+            ),
+            default => die("ERROR: Unknown diff type '{$value['type']}'"),
+        };
         return $acc;
-    }, []);
-
-    $resultString = implode("\n", $result);
+    }, $tree);
+    $filteredLines = array_filter($lines, fn($line) => $line !== null);
+    $resultString = implode("\n", $filteredLines);
     return $depth === 1 ? "{$resultString}\n" : $resultString;
 }
 

@@ -2,8 +2,6 @@
 
 namespace Differ\Tests;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use function Differ\Formatters\Stylish\formatValueStylish;
@@ -13,7 +11,6 @@ class FormatValueStylishTest extends TestCase
     #[DataProvider('valuesProvider')]
     public function testFormatValueStylish($expected, $argument)
     {
-        $value = 'test';
         $this->assertEquals($expected, formatValueStylish($argument));
     }
 

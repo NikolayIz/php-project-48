@@ -2,8 +2,6 @@
 
 namespace Differ\Tests;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use function Differ\Differ\genDiff;
